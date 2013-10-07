@@ -1,0 +1,197 @@
+<?php 
+include 'includes/config.php';
+
+
+# if there the button SUBMIT is click from the form REGISTER
+if(isset($_POST['submit'])){
+#pang TESTING lang ung echo na to :D
+	echo "testing kapag na pindot na";
+
+//getting the data from the form REGISTER
+
+$fname = $_POST['firstname'];
+$lname = ($_POST['lastname']);
+$email = ($_POST['email']);
+$phone = ($_POST['phone_number']);
+$username = ($_POST['username']);
+$password = ($_POST['password']);
+$cpassword = ($_POST['cpassword']);
+
+//Check if field were MISSING
+
+
+foreach($_POST as $key=>$value) {
+if(empty($_POST[$key])) {
+$message = ucwords($key) . " field is required";
+break;}}
+
+if($password !== $cpassword){
+$message = "Password did not match";
+}
+
+if(!isset($message)) {
+//query for adding/insert new Customer Data
+$add_new_user = (mysql_query("insert into tbl_users set 
+ fname = '".$fname."',
+ lname = '".$lname."',
+ email = '".$email."', 
+ phone = '".$phone."', 
+ username = '".$username."', 
+ password = '".$password."'",$con) or die (mysql_error()));
+
+//the query $add_new_user is SUCCESS then
+if($add_new_user){
+echo header("location:index.html");
+//or else 
+}else{echo "Something went wrong in Adding New User";}
+
+$message = "You have registered successfully!";	
+
+unset($_POST);
+}
+
+}
+else{
+echo "hinde pa napipindot";
+
+}
+
+
+?>
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+		<link rel="stylesheet" href="themes/theme.min.css" />
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile.structure-1.3.2.min.css" />
+		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+		
+		<style type="text/css">
+					body {
+				background: url(img/body.png) !important;
+				background-attachment:fixed;
+				background-size:cover;
+			}
+
+			.ui-page, .ui-content, .ui-btn {
+				background: transparent;
+			}
+		</style>
+	</head>
+	<body>
+		<div data-role="page" >
+		<div data-role="panel" id="mypanel">
+			
+				</div><!-- /panel -->
+			<div data-role="header" data-position="inline">
+			
+			<a href="#nav-panel" data-icon="bars" data-iconpos="notext">Menu</a>
+				<h1>SEUNGLEE</h1>
+				
+			
+			<div data-role=navbar>
+				
+      
+    </div>
+			</div>
+			<div data-role="content" data-theme="a">
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+				<center><img src="img/doo.png"></img></center>
+				<center><h1>Registration Form</h1></center>
+				<br/>
+				<br/>
+				<form name= "login" method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+				<label>Firstname:</label>
+				<input type="text" name="fname" value="<?php if(isset($_POST['submit'])) echo $fname;?>" />
+				
+				<label>Lastname:</label>
+				<input type="text" name="lname" value="<?php if(isset($_POST['submit'])) echo $lname;?>"/>
+				
+				<label>Email:</label>
+				<input type="email" name="email" value="<?php if(isset($_POST['submit'])) echo $email;?>"/>
+				
+				<label>Phone:</label>
+				<input type="text" name="phone" value="<?php if(isset($_POST['submit'])) echo $phone;?>"/>
+				
+				<label>Username:</label>
+				<input type="text" name="username" value="<?php if(isset($_POST['submit'])) echo $username;?>"/>
+				
+				<label>Password:</label>
+				<input type="password" name="password">
+				
+				<label>Confirm Password:</label>
+				<input type="password" name="username">
+				
+				
+				<input type="submit" name="submit" value="submit"/>
+				</form>
+
+			
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			
+			
+			</div>
+			<div data-role="footer" data-theme="a" data-position="fixed"> 
+				<h4></h4> 
+			</div> 
+			
+			<div data-role="panel" data-position="left" data-position-fixed="false" data-display="reveal" id="nav-panel" data-theme="a">
+
+					<ul data-role="listview" data-theme="a" data-divider-theme="a" style="margin-top:-16px;" class="nav-search">
+						
+						<li data-filtertext="wai-aria voiceover accessibility screen reader">
+							<a href="login.html">Sign-in</a>
+						</li>
+						<li data-filtertext="anatomy of page viewport">
+							<a href="register.html">Sign-up</a>
+						</li>
+						<li data-filtertext="accordions collapsible set collapsible-set collapsed">
+							<a href="index.html">Home</a>
+						</li>
+						<li data-filtertext="accordions collapsible set collapsible-set collapsed">
+							<a href="index.html">Therapist Schedule</a>
+						</li>
+						<li data-filtertext="ajax navigation model">
+							<a href="">Gallery</a>
+						</li>
+						<li data-filtertext="ajax navigation model">
+							<a href="services.html">Services</a>
+						</li>
+						<li data-filtertext="ajax navigation model">
+							<a href="mem.html">Membership</a>
+						</li>
+						<li data-filtertext="ajax navigation model">
+							<a href="">Account Settings</a>
+						</li>
+						<li data-filtertext="anatomy of page viewport">
+							<a href="">About</a>
+						</li>
+						<li data-filtertext="events api animationComplete transition css">
+							<a href=".">Log-Out</a>
+						</li>
+					</ul>
+			</div>
+		</div>
+		
+	</body>
+</html>
